@@ -26,7 +26,11 @@ export default class App extends React.Component {
       <TodoItem
         text={item.title}
         isComplete={item.isComplete}
-        changeComplete={this._changeComplete} />
+        changeComplete={() => {
+          const newTodo = [...this.state.todos];
+          newTodo[index].isComplete = !newTodo[index].isComplete;
+          this.setState({todos:newTodo});
+        }} />
     );
   }
 
@@ -34,22 +38,16 @@ export default class App extends React.Component {
     this.setState({inputValue:value});
   }
 
-  _addTodoItem = () =>{
-    const Input = this.state.inputValue;
-    const prevItem = this.state.todos;
-    const newItem = { title: Input, isComplete: false}
-    this.setState({
-      inputValue: '',
-      todos: prevItem.concat(newItem)
-    })
-  }
-
-  _changeComplete = (index) => {
-    alert(...index);
-    //const newTodo = [...this.state.todos];
-    //newTodo[index].isComplete = !newTodo[index].isComplete;
-    //alert(newTodo[index].title);
-    //this.setState({todos:newTodo},this.saveItem);
+  _addTodoItem = () => {
+    if(this.state.inputValue !== ''){
+      const Input = this.state.inputValue;
+      const prevItem = this.state.todos;
+      const newItem = { title: Input, isComplete: false}
+      this.setState({
+        inputValue: '',
+        todos: prevItem.concat(newItem)
+      });
+    }
   }
 
 
